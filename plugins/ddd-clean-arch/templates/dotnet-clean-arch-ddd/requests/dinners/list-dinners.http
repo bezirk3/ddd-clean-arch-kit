@@ -1,0 +1,5 @@
+@host = http://localhost:5216
+@token = paste-a-jwt-from-the-register-or-login-response
+
+GET {{host}}/dinners
+Authorization: Bearer {{token}}

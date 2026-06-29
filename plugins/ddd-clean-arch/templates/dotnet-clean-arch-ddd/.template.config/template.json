@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Simon Bezuidenhout",
+  "classifications": [ "Web", "API", "DDD", "Clean Architecture" ],
+  "identity": "Bezirk.CleanArchDdd.Solution",
+  "name": "Clean Architecture + DDD (.NET)",
+  "description": "A DDD + Clean Architecture .NET solution: Domain/Application/Infrastructure/Contracts/Api plus Aspire ServiceDefaults/AppHost, with ErrorOr flow control, in-house CQRS dispatch + decorators, EF Core via IApplicationDbContext, JWT auth, OpenAPI 3.1 + Scalar, and NetArchTest architecture tests.",
+  "shortName": "cleanarch-ddd",
+  "sourceName": "Forkfully",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/.vs/**",
+            "**/*.user"
+          ]
+        }
+      ]
+    }
+  ]
+}

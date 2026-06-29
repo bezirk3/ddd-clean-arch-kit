@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ddd-clean-arch-kit",
+  "description": "DDD + Clean Architecture toolkit for .NET. Skills for system design (event storming, bounded contexts, aggregate modeling), the ADR / living-design-doc / SDLC discipline that produced 52 consistent decisions, and a dotnet new template with an end-to-end aggregate slice generator.",
+  "owner": {
+    "name": "Simon Bezuidenhout",
+    "email": "simonfouriebezuidenhout@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "ddd-clean-arch",
+      "description": "Skills extracted from the Forkfully reference solution: DDD system design, the ADR/design-doc/SDLC method, and a .NET Clean Architecture scaffold with an aggregate slice generator.",
+      "author": {
+        "name": "Simon Bezuidenhout"
+      },
+      "category": "development",
+      "source": "./plugins/ddd-clean-arch"
+    }
+  ]
+}

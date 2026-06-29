@@ -1,0 +1,21 @@
+@host = http://localhost:5216
+@token = paste-a-jwt-from-the-register-or-login-response
+@hostId = 00000000-0000-0000-0000-000000000000
+
+POST {{host}}/hosts/{{hostId}}/menus
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Italian Feast",
+    "description": "A five course Italian dinner",
+    "sections": [
+        {
+            "name": "Appetizers",
+            "description": "Start light",
+            "items": [
+                { "name": "Bruschetta", "description": "Grilled bread, tomato, basil" }
+            ]
+        }
+    ]
+}

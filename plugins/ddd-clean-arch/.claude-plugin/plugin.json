@@ -1,0 +1,20 @@
+{
+  "name": "ddd-clean-arch",
+  "description": "DDD + Clean Architecture for .NET — system-design skills (event storming, bounded contexts, aggregate modeling), the ADR / living-design-doc / SDLC discipline, and a dotnet new template with an end-to-end aggregate slice generator.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Simon Bezuidenhout"
+  },
+  "keywords": [
+    "ddd",
+    "clean-architecture",
+    "dotnet",
+    "cqrs",
+    "adr",
+    "aggregate",
+    "event-storming",
+    "ef-core",
+    "template"
+  ],
+  "skills": "./skills/"
+}

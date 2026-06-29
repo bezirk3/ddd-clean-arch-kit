@@ -1,0 +1,188 @@
+@Forkfully.Api_HostAddress = http://localhost:5216
+
+###
+# End-to-end walkthrough of every aggregate.
+# Run top-to-bottom: each request is named with `# @name`, and later requests read
+# ids/token straight from a prior response via `{{name.response.body.$.field}}`.
+# (Works in the VS Code "REST Client" and the Visual Studio / C# Dev Kit .http runner.)
+#
+# Note: capture variables are referenced INLINE, not re-assigned to `@vars` after a
+# request body — a mid-request `@var` line would be swallowed into the JSON body by the
+# stricter runners and fail as "'@' is invalid after a single JSON value".
+###
+
+### Register a user -> token + userId
+# @name register
+POST {{Forkfully.Api_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Amichai",
+  "lastName": "Mantinband",
+  "email": "simon@email.com",
+  "password": "Password1!"
+}
+
+### Login (read the user back) -> token
+# @name login
+POST {{Forkfully.Api_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "simon@email.com",
+  "password": "Password1!"
+}
+
+### Create a host -> hostId (201 Created + Location)
+# @name createHost
+POST {{Forkfully.Api_HostAddress}}/hosts
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "userId": "{{register.response.body.$.id}}",
+  "firstName": "Amichai",
+  "lastName": "Mantinband",
+  "profileImage": "https://example.com/host.png"
+}
+
+### Get the host
+GET {{Forkfully.Api_HostAddress}}/hosts/{{createHost.response.body.$.id}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Create a guest -> guestId (201 Created + Location)
+# @name createGuest
+POST {{Forkfully.Api_HostAddress}}/guests
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "userId": "{{register.response.body.$.id}}",
+  "firstName": "Guest",
+  "lastName": "One",
+  "profileImage": "https://example.com/guest.png"
+}
+
+### Get the guest
+GET {{Forkfully.Api_HostAddress}}/guests/{{createGuest.response.body.$.id}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Create a menu for the host -> menuId (201 Created + Location)
+# @name createMenu
+POST {{Forkfully.Api_HostAddress}}/hosts/{{createHost.response.body.$.id}}/menus
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "name": "Italian Feast",
+  "description": "A five-course Italian dinner",
+  "sections": [
+    {
+      "name": "Appetizers",
+      "description": "To start",
+      "items": [
+        { "name": "Bruschetta", "description": "Tomato and basil on toast" }
+      ]
+    }
+  ]
+}
+
+### List the host's menus
+GET {{Forkfully.Api_HostAddress}}/hosts/{{createHost.response.body.$.id}}/menus
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Get one menu
+GET {{Forkfully.Api_HostAddress}}/hosts/{{createHost.response.body.$.id}}/menus/{{createMenu.response.body.$.id}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Create a dinner (maxGuestCount = 2 to demo the capacity invariant) -> dinnerId (201 Created + Location)
+# @name createDinner
+POST {{Forkfully.Api_HostAddress}}/dinners
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "name": "Italian Feast Dinner",
+  "description": "An evening of Italian food",
+  "startDateTime": "2026-07-01T18:00:00",
+  "endDateTime": "2026-07-01T21:00:00",
+  "maxGuestCount": 2,
+  "price": { "amount": 50.00, "currency": "USD" },
+  "hostId": "{{createHost.response.body.$.id}}",
+  "menuId": "{{createMenu.response.body.$.id}}",
+  "location": {
+    "name": "The Rooftop",
+    "address": "123 Main St",
+    "latitude": 40.0,
+    "longitude": -74.0
+  }
+}
+
+### List dinners
+GET {{Forkfully.Api_HostAddress}}/dinners
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Get one dinner
+GET {{Forkfully.Api_HostAddress}}/dinners/{{createDinner.response.body.$.id}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Reserve 2 spots (fills the dinner) -> creates a Bill, returns the dinner with the reservation
+# @name reserve
+POST {{Forkfully.Api_HostAddress}}/dinners/{{createDinner.response.body.$.id}}/reservations
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "guestId": "{{createGuest.response.body.$.id}}",
+  "guestCount": 2
+}
+
+### Try to reserve one more -> 400 Dinner.CannotReserveMoreSpotsThanAvailable
+POST {{Forkfully.Api_HostAddress}}/dinners/{{createDinner.response.body.$.id}}/reservations
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "guestId": "{{createGuest.response.body.$.id}}",
+  "guestCount": 1
+}
+
+### Get the bill produced by the reservation
+GET {{Forkfully.Api_HostAddress}}/bills/{{reserve.response.body.$.reservations[0].billId}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Create a menu review -> menuReviewId (201 Created + Location)
+# @name createMenuReview
+POST {{Forkfully.Api_HostAddress}}/menu-reviews
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "hostId": "{{createHost.response.body.$.id}}",
+  "menuId": "{{createMenu.response.body.$.id}}",
+  "guestId": "{{createGuest.response.body.$.id}}",
+  "dinnerId": "{{createDinner.response.body.$.id}}",
+  "rating": 5,
+  "comment": "Outstanding dinner!"
+}
+
+### Get the menu review
+GET {{Forkfully.Api_HostAddress}}/menu-reviews/{{createMenuReview.response.body.$.id}}
+Authorization: Bearer {{register.response.body.$.token}}
+
+### Validation failure: rating out of 1..5 -> 400 ValidationProblem
+POST {{Forkfully.Api_HostAddress}}/menu-reviews
+Content-Type: application/json
+Authorization: Bearer {{register.response.body.$.token}}
+
+{
+  "hostId": "{{createHost.response.body.$.id}}",
+  "menuId": "{{createMenu.response.body.$.id}}",
+  "guestId": "{{createGuest.response.body.$.id}}",
+  "dinnerId": "{{createDinner.response.body.$.id}}",
+  "rating": 6,
+  "comment": "Out of range"
+}
+
+### Unauthenticated request -> 401
+GET {{Forkfully.Api_HostAddress}}/hosts/{{createHost.response.body.$.id}}

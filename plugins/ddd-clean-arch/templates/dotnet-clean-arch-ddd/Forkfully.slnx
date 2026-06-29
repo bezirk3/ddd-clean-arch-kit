@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Forkfully.Api/Forkfully.Api.csproj" />
+    <Project Path="src/Forkfully.AppHost/Forkfully.AppHost.csproj" />
+    <Project Path="src/Forkfully.Application/Forkfully.Application.csproj" />
+    <Project Path="src/Forkfully.Contracts/Forkfully.Contracts.csproj" />
+    <Project Path="src/Forkfully.Domain/Forkfully.Domain.csproj" />
+    <Project Path="src/Forkfully.Infrastructure/Forkfully.Infrastructure.csproj" />
+	<Project Path="src/Forkfully.ServiceDefaults/Forkfully.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/unit/">
+    <Project Path="tests/unit/Forkfully.Api.UnitTests/Forkfully.Api.UnitTests.csproj" />
+    <Project Path="tests/unit/Forkfully.Application.UnitTests/Forkfully.Application.UnitTests.csproj" />
+    <Project Path="tests/unit/Forkfully.Domain.UnitTests/Forkfully.Domain.UnitTests.csproj" />
+    <Project Path="tests/unit/Forkfully.Infrastructure.UnitTests/Forkfully.Infrastructure.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/architecture/">
+    <Project Path="tests/architecture/Forkfully.ArchitectureTests/Forkfully.ArchitectureTests.csproj" />
+  </Folder>
+</Solution>

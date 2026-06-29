@@ -1,0 +1,10 @@
+# build artifacts that may appear when testing the dotnet template payload
+**/bin/
+**/obj/
+*.user
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vs/
+.idea/
