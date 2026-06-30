@@ -6,7 +6,7 @@ namespace Forkfully.Api.Endpoints;
 // scanning, but at the cost of a dependency we chose not to take.)
 public static class EndpointRouteBuilderExtensions
 {
-    public static IEndpointRouteBuilder MapForkfullyEndpoints(this IEndpointRouteBuilder routes)
+    public static IEndpointRouteBuilder MapApiEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapAuthenticationEndpoints();
         routes.MapHostEndpoints();

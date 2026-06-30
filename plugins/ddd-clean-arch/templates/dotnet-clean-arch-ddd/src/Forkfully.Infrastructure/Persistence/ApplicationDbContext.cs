@@ -14,12 +14,12 @@ namespace Forkfully.Infrastructure.Persistence;
 
 // The DbContext is the unit of work; it implements IApplicationDbContext so the
 // Application can use it directly (no per-aggregate repositories) — ADR-0044.
-public class ForkfullyDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
 
-    public ForkfullyDbContext(
-        DbContextOptions<ForkfullyDbContext> options,
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options,
         PublishDomainEventsInterceptor publishDomainEventsInterceptor)
         : base(options)
     {
@@ -38,7 +38,7 @@ public class ForkfullyDbContext : DbContext, IApplicationDbContext
     {
         modelBuilder
             .Ignore<List<IDomainEvent>>()    // domain events are never persisted
-            .ApplyConfigurationsFromAssembly(typeof(ForkfullyDbContext).Assembly);
+            .ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
     }

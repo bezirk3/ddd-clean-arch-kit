@@ -13,13 +13,13 @@ public static class Persistence
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        services.AddDbContext<ForkfullyDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Forkfully")));
 
         // The Application depends on the context through its own interface; resolve it
-        // to the same scoped ForkfullyDbContext instance.
+        // to the same scoped ApplicationDbContext instance.
         services.AddScoped<IApplicationDbContext>(
-            serviceProvider => serviceProvider.GetRequiredService<ForkfullyDbContext>());
+            serviceProvider => serviceProvider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<PublishDomainEventsInterceptor>();
 

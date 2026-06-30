@@ -241,7 +241,7 @@ public class <X>Configurations : IEntityTypeConfiguration<<X>>
 }
 ```
 
-## 12. Infrastructure — `Persistence/<Name>DbContext.cs` (add a line)
+## 12. Infrastructure — `Persistence/ApplicationDbContext.cs` (add a line)
 
 ```csharp
 public DbSet<<Name>.Domain.<X>.<X>> <Xs> { get; set; } = null!;

@@ -3,7 +3,7 @@ using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var api = builder.AddProject<Forkfully_Api>("api")
+var api = builder.AddProject<APPPROJNAME_Api>("api")
     .WithUrlForEndpoint("http", _ => new ResourceUrlAnnotation
     {
         Url = "/scalar/v1",

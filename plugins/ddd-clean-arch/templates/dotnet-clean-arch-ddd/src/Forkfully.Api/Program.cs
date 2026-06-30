@@ -22,7 +22,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapForkfullyEndpoints();
+app.MapApiEndpoints();
 
 // API docs (Development only): the OpenAPI 3.1 document + Scalar UI. Both are
 // AllowAnonymous so the secure-by-default fallback policy doesn't lock them out.

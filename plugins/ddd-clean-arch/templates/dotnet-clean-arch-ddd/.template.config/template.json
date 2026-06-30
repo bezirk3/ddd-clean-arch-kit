@@ -12,6 +12,23 @@
     "language": "C#",
     "type": "project"
   },
+  "symbols": {
+    "projectName": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "replaces": "APPPROJNAME",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          {
+            "regex": "\\.",
+            "replacement": "_"
+          }
+        ]
+      }
+    }
+  },
   "sources": [
     {
       "modifiers": [

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Forkfully.Infrastructure.Migrations
 {
-    [DbContext(typeof(ForkfullyDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260615054637_InitialCreate")]
     partial class InitialCreate
     {
