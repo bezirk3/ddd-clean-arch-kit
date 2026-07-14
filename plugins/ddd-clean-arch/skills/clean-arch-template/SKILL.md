@@ -64,10 +64,12 @@ secret or a database):
    ```bash
    dotnet user-secrets set "JwtSettings:Secret" "<at least 32 bytes>" --project src/Acme.Orders.Api
    ```
-2. **LocalDB instance + database** (the connection string targets `(localdb)\<Name>Db`):
+2. **LocalDB instance + database** (the connection string targets `(localdb)\<Name>Db`). The
+   template ships **no migration** — create the initial one first:
    ```bash
    sqllocaldb create Acme.OrdersDb && sqllocaldb start Acme.OrdersDb
-   dotnet ef database update -p src/Acme.Orders.Infrastructure -s src/Acme.Orders.Api
+   dotnet ef migrations add Initial -p src/Acme.Orders.Infrastructure -s src/Acme.Orders.Api
+   dotnet ef database update  -p src/Acme.Orders.Infrastructure -s src/Acme.Orders.Api
    ```
 3. **Build, test, run:**
    ```bash
@@ -89,9 +91,13 @@ secret or a database):
 
 ## Notes / known limitations
 
-- The template ships the dinner-hosting reference domain as a **worked example**. Replace the sample
-  aggregates with your own (or strip them) — `aggregate-slice-generator` adds new ones in the same
-  style.
+- The template ships **only the `Authentication` slice** (register/login + JWT + the `User`
+  aggregate) on top of the plumbing — no sample business domain. Add your aggregates with
+  `aggregate-slice-generator`. For a fully-built example of the architecture, point users at the
+  **Forkfully reference solution** (`d:\repo\local\.poc\ddd-template`), which the scaffolded
+  README also links.
+- The template ships **no EF migration** — the first `dotnet ef migrations add Initial` creates it
+  (already in the runbook above).
 - All scaffolds currently share the Api's `UserSecretsId` GUID; for isolated dev secrets, generate a
   fresh GUID into `src/<Name>.Api/<Name>.Api.csproj` after scaffolding. (A future template `symbol`
   will auto-generate it.)

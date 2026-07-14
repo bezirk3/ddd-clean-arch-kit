@@ -1,9 +1,3 @@
-using Forkfully.Domain.Bill;
-using Forkfully.Domain.Dinner;
-using Forkfully.Domain.Guest;
-using Forkfully.Domain.Host;
-using Forkfully.Domain.Menu;
-using Forkfully.Domain.MenuReview;
 using Forkfully.Domain.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,21 +9,11 @@ namespace Forkfully.Application.Common.Interfaces;
 // Infrastructure). The trade-off: the Application now references EF Core and exposes
 // IQueryable/DbSet — it gives up persistence ignorance, but keeps the dependency
 // pointing inward (the interface lives here, not the concrete context).
+//
+// Add a DbSet per aggregate you introduce (see the aggregate-slice-generator skill).
 public interface IApplicationDbContext
 {
     DbSet<User> Users { get; }
-
-    DbSet<Menu> Menus { get; }
-
-    DbSet<Host> Hosts { get; }
-
-    DbSet<Guest> Guests { get; }
-
-    DbSet<Dinner> Dinners { get; }
-
-    DbSet<Bill> Bills { get; }
-
-    DbSet<MenuReview> MenuReviews { get; }
 
     // The DbContext is the unit of work: one SaveChangesAsync commits the whole change
     // set. Async because persistence is I/O — don't block a thread on the round-trip.

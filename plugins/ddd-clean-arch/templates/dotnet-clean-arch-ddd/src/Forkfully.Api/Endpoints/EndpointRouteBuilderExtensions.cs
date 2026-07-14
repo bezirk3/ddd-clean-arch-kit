@@ -9,12 +9,8 @@ public static class EndpointRouteBuilderExtensions
     public static IEndpointRouteBuilder MapApiEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapAuthenticationEndpoints();
-        routes.MapHostEndpoints();
-        routes.MapGuestEndpoints();
-        routes.MapMenuEndpoints();
-        routes.MapDinnerEndpoints();
-        routes.MapBillEndpoints();
-        routes.MapMenuReviewEndpoints();
+        // Add one MapXEndpoints() call per aggregate you introduce
+        // (see the aggregate-slice-generator skill).
 
         return routes;
     }

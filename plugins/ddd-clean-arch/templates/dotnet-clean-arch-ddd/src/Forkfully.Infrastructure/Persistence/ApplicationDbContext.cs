@@ -1,11 +1,5 @@
 using Forkfully.Application.Common.Interfaces;
-using Forkfully.Domain.Bill;
 using Forkfully.Domain.Common.Models;
-using Forkfully.Domain.Dinner;
-using Forkfully.Domain.Guest;
-using Forkfully.Domain.Host;
-using Forkfully.Domain.Menu;
-using Forkfully.Domain.MenuReview;
 using Forkfully.Domain.User;
 using Forkfully.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
@@ -27,12 +21,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Menu> Menus { get; set; } = null!;
-    public DbSet<Host> Hosts { get; set; } = null!;
-    public DbSet<Guest> Guests { get; set; } = null!;
-    public DbSet<Dinner> Dinners { get; set; } = null!;
-    public DbSet<Bill> Bills { get; set; } = null!;
-    public DbSet<MenuReview> MenuReviews { get; set; } = null!;
+    // Add a DbSet per aggregate you introduce; its IEntityTypeConfiguration in
+    // Persistence/Configurations is picked up by ApplyConfigurationsFromAssembly below.
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
